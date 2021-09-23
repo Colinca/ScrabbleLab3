@@ -1,6 +1,7 @@
 package pkgCore;
 
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Word implements Comparable<Word> {
@@ -11,6 +12,12 @@ public class Word implements Comparable<Word> {
 	public Word(String strWord) {
 		WordID = UUID.randomUUID();
 		Word = strWord.toUpperCase();
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(this.getWord());
 	}
 	
 	@Override
