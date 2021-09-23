@@ -58,9 +58,21 @@ public class Dictionary {
 		ArrayList<String> combinWords = new ArrayList<String>();
 		//TODO: Generate the combinations based on incoming strLetters
 		//testing 
-		sdasd
 		//TODO: Take the combinations computed and call GeneratePossibleWords(ArrayList<String>)
-		
+		for (int b = 1; b < strLetters.length() + 1; b++) {
+			Iterator<int[]> iterWord = CombinatoricsUtils.combinationsIterator(strLetters.length(), b);
+			while (iterWord.hasNext()) {
+				final int[] cmbLetters = iterWord.next();
+				String strBuildWord = "";
+				for (int i : cmbLetters) {
+					strBuildWord += strLetters.charAt(i);
+				}
+				combinWords.add(strBuildWord);
+			}
+		}
+		for (String s : combinWords) {
+			System.out.println(s);
+		}
 		ArrayList<Word> WordsPermut = GeneratePossibleWords(combinWords);
 		//	Here's how you sort
 		Collections.sort(WordsPermut, Word.CompWord);
@@ -70,13 +82,34 @@ public class Dictionary {
 	private ArrayList<Word> GeneratePossibleWords(ArrayList<String> arrLetters) {
 		HashSet<Word> words = new HashSet<Word>();
 		//TODO: Call GeneratePossibleWords(String) for each String in arrLetters
-		ArrayList<Word> arrWords = new ArrayList<Word>();
-		return arrWords;
+		for (String strPossibleWord : arrLetters) {
+			words.addAll(GeneratePossibleWords(strPossibleWord));
+		}
+		ArrayList<Word> myWords = new ArrayList<Word>(words);
+		Collections.sort(myWords, Word.CompWord);
+		return myWords;
 	}
 
 	private HashSet<Word> GeneratePossibleWords(String strLetters) {
 		HashSet<Word> hsPossibleWords = new HashSet<Word>();
 		//TODO: Insert the code that will generate the permutations
+		ArrayList<Character> arrLetters = new ArrayList<Character>();
+
+		for (int i = 0; i < strLetters.length(); i++) {
+			char c = strLetters.charAt(i);
+			arrLetters.add(c);
+		}
+		Collection<List<Character>> ch = Collections2.orderedPermutations(arrLetters);
+		for (final List<Character> p : ch) {
+			{
+				String strBuild = "";
+				for (Character chrs : p) {
+					strBuild = strBuild + chrs;
+				}
+				hsPossibleWords.add(new Word(strBuild));
+			}
+		}
+		
 		return hsPossibleWords;
 	}
 	
